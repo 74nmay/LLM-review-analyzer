@@ -1,31 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    <meta http-equiv="refresh" content="5">
+    <meta http-equiv="refresh" content="10">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card { border: none; border-radius: 12px; }
+        .table { background: white; border-radius: 12px; overflow: hidden; }
+        .badge-rating { font-size: 1em; padding: 8px 12px; }
+    </style>
 </head>
-<body class="p-5">
-    <div class="container">
-        <h2 class="mb-4">🔴 Live Feedback Feed</h2>
-        <table class="table table-striped table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Stars</th>
-                    <th>User Review</th>
-                    <th>AI Analysis</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for r in reviews %}
-                <tr>
-                    <td style="font-size: 1.2em;">{{ r.stars }} ★</td>
-                    <td>{{ r.review }}</td>
-                    <td style="white-space: pre-wrap; font-family: monospace; font-size: 0.9em;">{{ r.ai_full_analysis }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<body class="p-4">
+    <div class="container-fluid" style="max-width: 1200px;">
+        
+        <h2 class="mb-4 fw-bold text-dark">🔴 Live Feedback Stream</h2>
+
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-white bg-primary h-100 shadow-sm">
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h6 class="card-title text-uppercase opacity-75">Total Reviews</h6>
+                        <h2 class="display-4 fw-bold mb-0">{{ total_reviews }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-white bg-success h-100 shadow-sm">
+                    <div class="card-body text-center d-flex flex-column justify-content-center">
+                        <h6 class="card-title text-uppercase opacity-75">Average Rating</h6>
+                        <h2 class="display-4 fw-bold mb-0">{{ average_rating }} <span class="fs-6">/ 5</span></h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card bg-white h-100 shadow-sm border">
+                    <div class="card-body">
+                        <h6 class="card-title text-uppercase text-muted mb-3">Rating Breakdown</h6>
+                        <div class="d-flex justify-content-between align-items-center text-center">
+                            <div><div class="fs-4 fw-bold">{{ star_counts[5] }}</div><small class="text-muted">5★</small></div>
+                            <div><div class="fs-4 fw-bold">{{ star_counts[4] }}</div><small class="text-muted">4★</small></div>
+                            <div><div class="fs-4 fw-bold">{{ star_counts[3] }}</div><small class="text-muted">3★</small></div>
+                            <div><div class="fs-4 fw-bold">{{ star_counts[2] }}</div><small class="text-muted">2★</small></div>
+                            <div><div class="fs-4 fw-bold">{{ star_counts[1] }}</div><small class="text-muted">1★</small></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width: 12%">Rating</th>
+                        <th style="width: 30%">User Review</th>
+                        <th style="width: 58%">AI Smart Analysis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in reviews %}
+                    <tr>
+                        <td class="align-middle">
+                            <span class="badge bg-secondary badge-rating">{{ r.stars }} ★</span>
+                        </td>
+                        <td class="align-middle">{{ r.review }}</td>
+                        <td class="bg-light" style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; color: #333;">{{ r.ai_full_analysis }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </body>
 </html>
